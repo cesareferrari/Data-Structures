@@ -49,6 +49,15 @@ class DoublyLinkedList:
     def __len__(self):
         return self.length
 
+    def find(self, value):
+        # return node with passed value
+        node = self.head
+
+        while node != None and node.value != value:
+            node = node.next
+
+        return node
+
     def find_middle(self):
         middle = self.head
         end = self.head
@@ -202,3 +211,13 @@ class DoublyLinkedList:
             current_node = current_node.next
 
         return highest_value
+
+
+# dll = DoublyLinkedList()
+# dll.add_to_tail(1)
+# dll.add_to_tail(2)
+# dll.add_to_tail(3)
+# 
+# print(dll.find(1).value)
+# print(dll.find(2).value)
+# print(dll.find(3).value)

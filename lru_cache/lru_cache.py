@@ -28,7 +28,34 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        # Instructor code:
+        if key not in self.storage_dict:
+            return None
+
+        node = self.storage.head
+        while node is not None:
+            if key == node.value[0]: # node is stored as a list [key, value]
+                self.storage.move_to_front(node)
+                break
+            node = node.next
+        
+        return self.storage_dict[key]
+
+        # My original code below:
+        # if key in self.storage_dict:
+        #     # print("### key:", key) # for debugging
+
+        #     # find node with value == self.storage_dict[key]
+        #     node = self.storage.find(self.storage_dict[key])
+        #     # print("### node found:", node) # for debugging
+        #     # and move it to the end
+        #     if node:
+        #         self.storage.move_to_end(node)
+
+        #     return self.storage_dict[key]
+        # else:
+        #     return None
+
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -41,4 +68,73 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+        # Instructor code:
+        if key in self.storage_dict:
+            # overwrite in the dictionary
+            self.storage_dict[key] = value
+            # overwrite in DLL
+            # iterate on the list and find node to be updated
+            node = self.storage.head
+
+            while node is not None:
+                # node is a list: [key, value]
+                if key == node.value[0]:
+                    node.value[1] = value
+                    # move to head of DLL
+                    self.storage.move_to_front(node)
+                    break
+                node = node.next
+
+        else:
+            # handle case when we are full
+            if self.size == self.limit:
+                # delete tail of list
+                node = self.storage.tail
+                old_key = node.value[0] # because the node is a list: [key, value]
+
+                self.storage.remove_from_tail()
+
+                del self.storage_dict[old_key]
+                # pop would also work
+                # self.storage_dict.pop(old_key)
+
+                self.size -= 1
+
+            # add to the cache
+            self.storage_dict[key] = value
+            # add as a list because we may want to overwrite later
+            self.storage.add_to_head([ key, value ]) 
+            self.size += 1
+
+
+
+        # My original code below:
+        # if key in self.storage_dict:
+        #     # if the key already exist
+        #     # overwrite value
+        #     self.storage_dict[key] = value
+
+        # else:
+        #     # add a new item to the tail
+        #     self.storage.add_to_tail(value)
+        #     self.storage_dict[key] = value
+        #     self.size += 1
+
+        #     if self.size > self.limit:
+        #         # remove one item from the head if we are 
+        #         # over the limit
+        #         self.storage.remove_from_head()
+        #         self.size -= 1
+
+
+# my_cache = LRUCache()
+
+# my_cache.set('one', 1)
+# my_cache.set('two', 2)
+
+# print(my_cache.storage_dict)
+# print("DLL length:", my_cache.storage.length)
+
+# print(my_cache.get('one'))
+# print(my_cache.get('two'))
+

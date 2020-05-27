@@ -41,11 +41,34 @@ class BSTNode:
                 self.left.insert(value)
 
 
-
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        # if current node value is the target, return true
+        if self.value == target:
+            return True
+
+        # if current node value is less than the target
+        # target must be on the right
+        if self.value < target:
+            # if there's nothing on the right, we didn't find the target,
+            # return false
+            if self.right is None:
+                return False
+            else:
+                # if there's something on the right, keep searching recursively
+                # until the value is found, 
+                # and returns True (self.value == target see line 48)
+                return self.right.contains(target)
+
+        # same code as previous branch, but looking left
+        if self.value >= target:
+            if self.left is None:
+                return False
+            else:
+                return self.left.contains(target)
+
+
 
     # Return the maximum value found in the tree
     def get_max(self):

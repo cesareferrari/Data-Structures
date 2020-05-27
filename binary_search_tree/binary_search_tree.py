@@ -17,7 +17,30 @@ class BSTNode:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        # Create a new node
+        node = BSTNode(value)
+
+        # if value is more or equal than self.value, go to the right
+        if value >= self.value:
+            # if there is nothing at the right, insert the new node
+            if self.right is None:
+                self.right = node 
+            else:
+                # if there is a right node already, try again recursively
+                # until you find None as the right node.
+                # At that point, the previous branch is run and the 
+                # node is inserted to the right.
+                self.right.insert(value)
+
+        # if value is less than current node value, insert to the left.
+        # same logic as above
+        if value < self.value:
+            if self.left is None:
+                self.left = node 
+            else:
+                self.left.insert(value)
+
+
 
     # Return True if the tree contains the value
     # False if it does not
@@ -59,3 +82,12 @@ class BSTNode:
     # Print Post-order recursive DFT
     def post_order_dft(self, node):
         pass
+
+
+my_node = BSTNode(5)
+my_node.insert(2)
+my_node.insert(3)
+
+print("right", my_node.right)
+print("left", my_node.left.value)
+print("left - right", my_node.left.right.value)

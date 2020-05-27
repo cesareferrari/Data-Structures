@@ -69,10 +69,20 @@ class BSTNode:
                 return self.left.contains(target)
 
 
-
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        # larger values are on the right, so we only look at the right side
+
+        # if there is nothing at the right of the current node,
+        # this is the largest value
+        if self.right is None:
+            return self.value
+        else:
+            # recursively look at the right until you get to the end
+            # where self.right is None
+            return self.right.get_max()
+
+
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):

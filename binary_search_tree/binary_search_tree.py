@@ -1,3 +1,8 @@
+import sys
+sys.path.append('../stack')
+from stack import Stack
+from queue import Queue
+
 """
 Binary search trees are a data structure that enforce an ordering over 
 the data they store. That ordering in turn makes it a lot more efficient 
@@ -78,22 +83,24 @@ class BSTNode:
         if self.right is None:
             return self.value
         else:
-            # recursively look at the right until you get to the end
+            # recursively look at the right until we get to the point
             # where self.right is None
             return self.right.get_max()
 
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
+        # call the function on the first node
         fn(self.value)
 
+        # if the node has a left node, call the function recursively on left
+        # node
         if self.left:
             self.left.for_each(fn)
 
+        # same thing if it has a right node
         if self.right:
             self.right.for_each(fn)
-
-
 
 
 
@@ -102,30 +109,56 @@ class BSTNode:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+        if self.left is not None:
+            self.left.in_order_print(self.left)
+
+        print(node.value)
+
+        if self.right is not None:
+            self.right.in_order_print(self.right)
+
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
-        
         # make a queue
+        queue = Queue()
         # enqueue the node
+        queue.enqueue(node)
         # as long as the queue is not empty
-        ## dequeue from the front of the queue, this is our current node
-        ## enqueue the kids of the current node on the queue
+        while queue.size > 0:
+            ## dequeue from the front of the queue, this is our current node
+            current_node = queue.dequeue()
+            ## enqueue the children of the current node on the queue
+            if current_node.left is not None:
+                queue.enqueue(current_node.left)
+
+            if current_node.right is not None:
+                queue.enqueue(current_node.right)
+
+            print(current_node.value)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
-
         # make a stack
+        stack = Stack()
         # push the node on the stack
+        stack.push(node)
         # as long as the stack is not empty
-        ## pop off the stack, this is our current node
-        ## put the kids of the current node on the stack
-        ## (check that they are not None, then put them on the stack)
+        while stack.size > 0: 
+            ## pop off the stack, this is our current node
+            current_node = stack.pop()
+            ## put the children of the current node on the stack
+            ## (check that they are not None, then put them on the stack)
+            if current_node.left is not None:
+                stack.push(current_node.left)
+
+            if current_node.right is not None:
+                stack.push(current_node.right)
+
+            print(current_node.value)
+            
 
 
 
@@ -141,3 +174,12 @@ class BSTNode:
     def post_order_dft(self, node):
         pass
 
+
+
+bst = BSTNode(1)
+bst.insert(8)
+bst.insert(5)
+bst.insert(2)
+
+bst.dft_print(bst)
+bst.bft_print(bst)

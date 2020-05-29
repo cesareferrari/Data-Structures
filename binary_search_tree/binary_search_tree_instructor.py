@@ -1,4 +1,6 @@
 """
+cs.usfca.edu/~galles/visualization/BST.html
+
 Binary search trees are a data structure that enforce an ordering over 
 the data they store. That ordering in turn makes it a lot more efficient 
 at searching for a particular piece of data in the tree. 
@@ -16,6 +18,7 @@ class BSTNode:
         self.right = None
 
     # Insert the given value into the tree
+    # My code
     def insert(self, value):
         # Create a new node
         node = BSTNode(value)
@@ -39,6 +42,28 @@ class BSTNode:
                 self.left = node 
             else:
                 self.left.insert(value)
+
+"""
+# Instructor code
+def insert(self, value):
+
+    if value >= self.value:
+        if self.right is not None:
+            self.right.insert(value)
+        else:
+            new_node = BSTNode(value)
+            self.right = new_node
+    else:
+        if self.left is not None:
+            self.left.insert(value)
+        else:
+            new_node = BSTNode(value)
+            self.left = new_node
+"""
+
+
+
+
 
 
     # Return True if the tree contains the value
@@ -69,6 +94,26 @@ class BSTNode:
                 return self.left.contains(target)
 
 
+"""
+    # Instructor code
+    def contains(self, target):
+        if self.value == target:
+            return True
+        elif target > self.value:
+            if self.right is not None:
+                return self.right.contains(target)
+            else:
+                return False
+        else:
+            if self.left is not None:
+                return self.left.contains(target)
+            else:
+                return False
+"""
+
+
+
+
     # Return the maximum value found in the tree
     def get_max(self):
         # larger values are on the right, so we only look at the right side
@@ -81,6 +126,18 @@ class BSTNode:
             # recursively look at the right until you get to the end
             # where self.right is None
             return self.right.get_max()
+
+
+"""
+    # Instructor code
+    def get_max(self):
+        current_node = self
+        while current_node.right is not None:
+            current_node = current_node.right
+
+        return current_node.value
+"""
+
 
 
     # Call the function `fn` on the value of each node
